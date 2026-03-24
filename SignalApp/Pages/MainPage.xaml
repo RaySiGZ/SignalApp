@@ -1,0 +1,234 @@
+﻿<Page x:Class="SignalApp.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:SignalApp.Pages"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Основная страница"
+      Cursor="Arrow">
+
+   <Page.Resources>
+      <Style TargetType="TextBox">
+         <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+               <Setter Property="BorderBrush" Value="Red"/>
+               <Setter Property="ToolTip"
+                       Value="{Binding RelativeSource={RelativeSource Self},
+                                          Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+         </Style.Triggers>
+      </Style>
+   </Page.Resources>
+
+   <Grid>
+      <StackPanel HorizontalAlignment="Left" Margin="10,15,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+         <TextBlock TextWrapping="Wrap" Text="График" Height="15"/>
+         <Button x:Name="SinButton" 
+                 Content="Синусоида" 
+                 Cursor="Hand" 
+                 Click="SinButton_Click" 
+                 Width="70" 
+                 RenderTransformOrigin="0.5,0.5" 
+                 BorderThickness="1,1,1,1" 
+                 ClipToBounds="True" Height="20">
+            <Button.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="38"/>
+               </TransformGroup>
+            </Button.RenderTransform>
+         </Button>
+         <Button x:Name="MeanButton" 
+                 Content="Меандр" 
+                 Cursor="Hand" 
+                 Click="MeanButton_Click" 
+                 RenderTransformOrigin="0.5,0.5" 
+                 Width="51" 
+                 BorderThickness="0,1,1,1"
+                 ClipToBounds="True" Height="20">
+            <Button.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="38"/>
+               </TransformGroup>
+            </Button.RenderTransform>
+         </Button>
+      </StackPanel>
+
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,90,0,0">
+         <TextBlock TextWrapping="Wrap" Text="Частота" Cursor="Arrow" RenderTransformOrigin="0.5,0.5" Height="15">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="0"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+         </TextBlock>
+
+         <TextBox x:Name="FrequencyBox"
+                  TextWrapping="Wrap"
+                  Width="120"
+                  Cursor="IBeam"
+                  RenderTransformOrigin="0.5,0.5"
+                  UndoLimit="3" Height="20">
+            <TextBox.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="36"/>
+               </TransformGroup>
+            </TextBox.RenderTransform>
+            <TextBox.Text>
+               <Binding Path="Frequency"
+                        UpdateSourceTrigger="LostFocus"
+                        ValidatesOnDataErrors="True"
+                        NotifyOnValidationError="True"/>
+            </TextBox.Text>
+         </TextBox>
+      </StackPanel>
+
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,115,0,0">
+         <TextBlock TextWrapping="Wrap" Text="Амплитуда" Cursor="Arrow" RenderTransformOrigin="0.5,0.5" Height="15">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="0"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+         </TextBlock>
+
+         <TextBox x:Name="AmplitudeBox"
+                  TextWrapping="Wrap"
+                  Width="120"
+                  UndoLimit="5"
+                  Cursor="IBeam"
+                  RenderTransformOrigin="0.5,0.5" Height="20">
+            <TextBox.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="19"/>
+               </TransformGroup>
+            </TextBox.RenderTransform>
+            <TextBox.Text>
+               <Binding Path="Amplitude"
+                        UpdateSourceTrigger="LostFocus"
+                        ValidatesOnDataErrors="True"
+                        NotifyOnValidationError="True"/>
+            </TextBox.Text>
+         </TextBox>
+      </StackPanel>
+
+      <TextBlock HorizontalAlignment="Left" Margin="10,140,0,0" TextWrapping="Wrap" Text="Количество точек" VerticalAlignment="Top" IsEnabled="False" Cursor="Arrow" Height="15"/>
+
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,161,0,0">
+         <TextBlock TextWrapping="Wrap" Cursor="Arrow" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Height="15">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="0"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+                <Run Language="ru-ru" Text="Всего"/>
+         </TextBlock>
+
+         <TextBox x:Name="MaxCountBox"
+                  TextWrapping="Wrap"
+                  Width="120"
+                  UndoLimit="5"
+                  Cursor="IBeam"
+                  RenderTransformOrigin="0.5,0.5" Height="20">
+            <TextBox.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="48"/>
+               </TransformGroup>
+            </TextBox.RenderTransform>
+            <TextBox.Text>
+               <Binding Path="MaxCount"
+                        UpdateSourceTrigger="LostFocus"
+                        ValidatesOnDataErrors="True"
+                        NotifyOnValidationError="True"/>
+            </TextBox.Text>
+         </TextBox>
+      </StackPanel>
+
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,186,0,0">
+         <TextBlock TextWrapping="Wrap" Cursor="Arrow" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Height="15">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="0"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+                <Run Language="ru-ru" Text="В периоде"/>
+         </TextBlock>
+
+         <TextBox x:Name="PeriodCountBox"
+                  TextWrapping="Wrap"
+                  Width="120"
+                  UndoLimit="5"
+                  Cursor="IBeam"
+                  RenderTransformOrigin="0.5,0.5" Height="20">
+            <TextBox.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="21"/>
+               </TransformGroup>
+            </TextBox.RenderTransform>
+            <TextBox.Text>
+               <Binding Path="PeriodCount"
+                            UpdateSourceTrigger="LostFocus"
+                            ValidatesOnDataErrors="True"
+                            NotifyOnValidationError="True"/>
+            </TextBox.Text>
+         </TextBox>
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,40,0,0">
+         <Button x:Name="SaveFolderButton" Content="Папка сохранения" Height="20" Click="SaveFolderButton_Click" Cursor="Hand"/>
+         <TextBlock x:Name="SavePath" TextWrapping="Wrap" Text="../saveFolder" Height="15" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="5"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+         </TextBlock>
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Left" Margin="10,65,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+         <CheckBox x:Name="SaveCheckBox" Content="Сохранить" Height="15" Cursor="Hand" IsChecked="False"/>
+         <Button x:Name="SaveAllButton" Content="Сохранить все" Height="20" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="SaveAllButton_Click">
+            <Button.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="10"/>
+               </TransformGroup>
+            </Button.RenderTransform>
+         </Button>
+      </StackPanel>
+   </Grid>
+</Page>
