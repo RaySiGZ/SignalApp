@@ -60,6 +60,33 @@
             </Button.RenderTransform>
          </Button>
       </StackPanel>
+      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,40,0,0">
+         <Button x:Name="SaveFolderButton" Content="Папка сохранения" Height="20" Click="SaveFolderButton_Click" Cursor="Hand"/>
+         <TextBlock x:Name="SavePath" TextWrapping="Wrap" Text="../saveFolder" Height="15" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+            <TextBlock.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="5"/>
+               </TransformGroup>
+            </TextBlock.RenderTransform>
+         </TextBlock>
+      </StackPanel>
+      
+      <StackPanel HorizontalAlignment="Left" Margin="10,65,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+         <CheckBox x:Name="SaveCheckBox" Content="Сохранить" Height="15" Cursor="Hand" IsChecked="False"/>
+         <Button x:Name="SaveAllButton" Content="Сохранить все" Height="20" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="SaveAllButton_Click">
+            <Button.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform/>
+                  <TranslateTransform X="10"/>
+               </TransformGroup>
+            </Button.RenderTransform>
+         </Button>
+      </StackPanel>
 
       <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,90,0,0">
          <TextBlock TextWrapping="Wrap" Text="Частота" Cursor="Arrow" RenderTransformOrigin="0.5,0.5" Height="15">
@@ -203,32 +230,6 @@
                             NotifyOnValidationError="True"/>
             </TextBox.Text>
          </TextBox>
-      </StackPanel>
-      <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,40,0,0">
-         <Button x:Name="SaveFolderButton" Content="Папка сохранения" Height="20" Click="SaveFolderButton_Click" Cursor="Hand"/>
-         <TextBlock x:Name="SavePath" TextWrapping="Wrap" Text="../saveFolder" Height="15" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
-            <TextBlock.RenderTransform>
-               <TransformGroup>
-                  <ScaleTransform/>
-                  <SkewTransform/>
-                  <RotateTransform/>
-                  <TranslateTransform X="5"/>
-               </TransformGroup>
-            </TextBlock.RenderTransform>
-         </TextBlock>
-      </StackPanel>
-      <StackPanel HorizontalAlignment="Left" Margin="10,65,0,0" Orientation="Horizontal" VerticalAlignment="Top">
-         <CheckBox x:Name="SaveCheckBox" Content="Сохранить" Height="15" Cursor="Hand" IsChecked="False"/>
-         <Button x:Name="SaveAllButton" Content="Сохранить все" Height="20" RenderTransformOrigin="0.5,0.5" Cursor="Hand" Click="SaveAllButton_Click">
-            <Button.RenderTransform>
-               <TransformGroup>
-                  <ScaleTransform/>
-                  <SkewTransform/>
-                  <RotateTransform/>
-                  <TranslateTransform X="10"/>
-               </TransformGroup>
-            </Button.RenderTransform>
-         </Button>
       </StackPanel>
    </Grid>
 </Page>
