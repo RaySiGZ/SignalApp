@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace SignalApp.Funcrion
+namespace SignalApp.Function
 {
    internal static class SaveGraf
    {
@@ -28,11 +28,6 @@ namespace SignalApp.Funcrion
                Directory.CreateDirectory(directory);
 
             StreamWriter writer = new StreamWriter(fullPath, false, Encoding.UTF8);
-
-            //writer.WriteLine($"Max;{graf.max.ToString("0.#####", CultureInfo.InvariantCulture)}");
-            //writer.WriteLine($"Min;{graf.min.ToString("0.#####", CultureInfo.InvariantCulture)}");
-            //writer.WriteLine($"Avg;{graf.avg.ToString("0.#####", CultureInfo.InvariantCulture)}");
-            //writer.WriteLine($"ZeroCross;{graf.zeroCrossing}");
 
             writer.WriteLine("X;Y");
 
