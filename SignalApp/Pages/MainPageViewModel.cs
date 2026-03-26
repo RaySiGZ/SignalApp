@@ -3,6 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace SignalApp.Pages
 {
+   /// <summary>
+   /// VievModel для MainPage
+   /// Также содержит валидацию данных и метод для получения распарсенных значений
+   /// </summary>
    public class MainPageViewModel : INotifyPropertyChanged, IDataErrorInfo
    {
       private string _frequency;
@@ -10,6 +14,9 @@ namespace SignalApp.Pages
       private string _maxCount;
       private string _periodCount;
 
+      /// <summary>
+      /// Частота
+      /// </summary>
       public string Frequency
       {
          get => _frequency;
@@ -20,6 +27,9 @@ namespace SignalApp.Pages
          }
       }
 
+      /// <summary>
+      /// Амплитуда
+      /// </summary>
       public string Amplitude
       {
          get => _amplitude;
@@ -30,6 +40,9 @@ namespace SignalApp.Pages
          }
       }
 
+      /// <summary>
+      /// Общее количество точек
+      /// </summary>
       public string MaxCount
       {
          get => _maxCount;
@@ -41,6 +54,9 @@ namespace SignalApp.Pages
          }
       }
 
+      /// <summary>
+      /// Количество точек в одном периоде (необязательное поле)
+      /// </summary>
       public string PeriodCount
       {
          get => _periodCount;
@@ -54,6 +70,11 @@ namespace SignalApp.Pages
 
       public string Error => null;
 
+      /// <summary>
+      /// Возвращает сообщение об ошибке валидации для указанного свойства.
+      /// </summary>
+      /// <param name="columnName">Имя свойства, для которого выполняется валидация.</param>
+      /// <returns>Текст ошибки или null, если ошибок нет.</returns>
       public string this[string columnName]
       {
          get
@@ -105,6 +126,14 @@ namespace SignalApp.Pages
              this[nameof(PeriodCount)] != null;
       }
 
+      /// <summary>
+      /// Пытается преобразовать введённые значения в типизированные параметры.
+      /// </summary>
+      /// <param name="amplitude">Распарсенная амплитуда.</param>
+      /// <param name="frequency">Распарсенная частота.</param>
+      /// <param name="maxCount">Распарсенное общее количество точек.</param>
+      /// <param name="periodCount">Распарсенное количество точек на период или null.</param>
+      /// <returns>true, если все обязательные значения успешно распарсены; иначе false.</returns>
       public bool TryGetParsedValues(
           out double amplitude,
           out double frequency,
@@ -134,8 +163,15 @@ namespace SignalApp.Pages
              periodOk;
       }
 
+      /// <summary>
+      /// Событие, возникающее при изменении значения свойства.
+      /// </summary>
       public event PropertyChangedEventHandler PropertyChanged;
 
+      /// <summary>
+      /// Вызывает событие PropertyChanged для указанного свойства.
+      /// </summary>
+      /// <param name="propertyName">Имя изменившегося свойства.</param>
       private void OnPropertyChanged([CallerMemberName] string propertyName = null)
       {
          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

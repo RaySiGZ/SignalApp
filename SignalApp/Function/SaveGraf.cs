@@ -6,15 +6,34 @@ using System.Text;
 
 namespace SignalApp.Function
 {
+   /// <summary>
+   /// Содержит методы для сохранения графиков в файл
+   /// </summary>
    internal static class SaveGraf
    {
+      /// <summary>
+      /// Сохраняет параметры сигнала и точки графика в CSV-файл
+      /// </summary>
+      /// <param name="fullPath">Полный путь к сохраняемому файлу</param>
+      /// <param name="grafValue">Параметры сигнала</param>
+      /// <param name="graf">Рассчитанные точки и параметры графика</param>
+      /// <returns>true, если файл успешно сохранён; иначе false</returns>
+      /// <exception cref="ArgumentException">
+      /// Выбрасывается, если путь к файлу некорректен, тип сигнала недопустим
+      /// или массивы точек имеют разную длину
+      /// </exception>
+      /// <exception cref="ArgumentNullException">
+      /// Выбрасывается, если массив точек X или Y равен null
+      /// </exception>
       public static bool SaveGrafCSV(string fullPath, GrafValue grafValue,(double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing) graf)
       {
-         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type) || !grafValue.Validate())
-            throw new ArgumentException("Incorrect signal type");
+         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type)) 
+            throw new ArgumentException($"Unsupported signal type: {grafValue.Type}", nameof(grafValue));
+
+         grafValue.Validate();
 
          if (string.IsNullOrWhiteSpace(fullPath))
-            throw new ArgumentException("File path cannot be empty.", nameof(fullPath));
+            throw new ArgumentException("File path must not be null or whitespace.", nameof(fullPath));
 
          if (graf.xs == null)
             throw new ArgumentNullException(nameof(graf.xs));
@@ -23,7 +42,7 @@ namespace SignalApp.Function
             throw new ArgumentNullException(nameof(graf.ys));
 
          if (graf.xs.Length != graf.ys.Length)
-            throw new ArgumentException("X and Y arrays must have the same length.");
+            throw new ArgumentException($"X and Y arrays must have the same length. X: {graf.xs.Length}, Y: {graf.ys.Length}.", nameof(graf));
 
          try
          {

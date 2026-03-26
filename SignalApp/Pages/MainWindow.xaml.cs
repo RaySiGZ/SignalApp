@@ -8,6 +8,9 @@ namespace SignalApp.Windows
    /// </summary>
    public partial class MainWindow : Window
    {
+      /// <summary>
+      /// Логика взаимодействия для MainWindows.xaml
+      /// </summary>
       public MainWindow()
       {
          InitializeComponent();

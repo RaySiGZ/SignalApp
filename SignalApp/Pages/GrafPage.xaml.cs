@@ -13,21 +13,24 @@ namespace SignalApp.Pages
    /// </summary>
    public partial class GrafPage : Page
    {
+      /// <summary>
+      /// Рассчитанные точки и параметры текущего графика.
+      /// </summary>
       private (double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing) graf;
 
+      /// <summary>
+      /// Проверяет параметры сигнала, генерирует точки графика и отображает график на элементе SignalPlot.
+      /// </summary>
+      /// <param name="grafValue">Параметры сигнала для построения графика.</param>
+      /// <exception cref="ArgumentException">
+      /// Выбрасывается, если переданы некорректные параметры сигнала.
+      /// </exception>
       private void DrawGraf(GrafValue grafValue)
       {
-         if (grafValue.Amplitude <= 0)
-            throw new ArgumentOutOfRangeException("Amplitude must be a positive number");
+         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type))
+            throw new ArgumentException($"Unsupported signal type: {grafValue.Type}", nameof(grafValue));
 
-         if (grafValue.Frequency <= 0)
-            throw new ArgumentOutOfRangeException("Frequency must be a positive number");
-
-         if (grafValue.MaxCount > 10000 || grafValue.MaxCount < 100)
-            throw new ArgumentOutOfRangeException("MaxCount must be a number between 100 and 10000");
-
-         if (!(grafValue.PeriodCount is null) && grafValue.PeriodCount > grafValue.MaxCount)
-            throw new ArgumentOutOfRangeException("PeriodCount must be a number less MaxCount");
+         grafValue.Validate();
 
          graf = MathFunc.GenerateGraf(grafValue);
 
@@ -46,6 +49,11 @@ namespace SignalApp.Pages
          SignalPlot.Refresh();
       }
 
+      /// <summary>
+      /// Инициализирует страницу отображения графика и выводит его параметры.
+      /// </summary>
+      /// <param name="fullPath">Полный путь к файлу графика.</param>
+      /// <param name="grafValue">Параметры сигнала для построения графика.</param>
       public GrafPage(string fullPath, GrafValue grafValue)
       {
          InitializeComponent();
@@ -54,6 +62,9 @@ namespace SignalApp.Pages
          MathParamText.Text = $"Max / Min / Avg / Zero Cross. : {graf.max:0.#####} / {graf.min:0.#####} / {graf.avg:0.#####} / {graf.zeroCrossing}";
       }
 
+      /// <summary>
+      /// Обрабатывает нажатие кнопки возврата на предыдущую страницу.
+      /// </summary>
       private void BackButton_Click(object sender, RoutedEventArgs e)
       {
          NavigationService.GoBack();

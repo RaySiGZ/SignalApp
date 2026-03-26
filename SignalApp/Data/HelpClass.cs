@@ -9,20 +9,40 @@ using System.Threading.Tasks;
 
 namespace SignalApp.Data
 {
+   /// <summary>
+   /// Вспомогательный класс для получения отображаемых имен и коротких обозначений значений перечислений.
+   /// </summary>
    public static class EnumHelper
    {
+      /// <summary>
+      /// Возвращает отображаемое имя значения перечисления из атрибута Display
+      /// Если атрибут отсутствует, возвращает имя значения перечисления
+      /// </summary>
+      /// <param name="value">Значение перечисления</param>
+      /// <returns>Отображаемое имя значения перечисления</returns>
       public static string GetDisplayName(Enum value)
       {
          var attr = GetDisplay(value);
          return attr?.Name ?? value.ToString();
       }
 
+      /// <summary>
+      /// Возвращает короткое имя значения перечисления из атрибута Display
+      /// Если атрибут отсутствует, возвращает имя значения в нижнем регистре
+      /// </summary>
+      /// <param name="value">Значение перечисления</param>
+      /// <returns>Короткое имя значения перечисления</returns>
       public static string GetShortName(Enum value)
       {
          var attr = GetDisplay(value);
          return attr?.ShortName ?? value.ToString().ToLower();
       }
 
+      /// <summary>
+      /// Возвращает атрибут Display для указанного значения перечисления
+      /// </summary>
+      /// <param name="value">Значение перечисления</param>
+      /// <returns>Атрибут Display или null, если он отсутствует</returns>
       private static DisplayAttribute GetDisplay(Enum value)
       {
          var field = value.GetType().GetField(value.ToString());
@@ -31,12 +51,12 @@ namespace SignalApp.Data
    }
 
    /// <summary>
-   /// Enum для типа сигнала
+   /// Перечисление доступных типов сигналов.
    /// </summary>
    public enum SignalType
    {
       /// <summary>
-      /// Синусоида
+      /// Синус
       /// </summary>
       [Display(Name = "Синус", ShortName = "sin")]
       Sine,
@@ -48,40 +68,40 @@ namespace SignalApp.Data
       Square,
 
       /// <summary>
-      /// Треугольная волна
+      /// Треугольный сигнал
       /// </summary>
       [Display(Name = "Треугольник", ShortName = "tri")]
       Triangle,
 
       /// <summary>
-      /// Пилообразный график
+      /// Пилообразный сигнал
       /// </summary>
       [Display(Name = "Пилообразный", ShortName = "saw")]
       Sawtooth
    }
 
    /// <summary>
-   /// Класс для хранения параметров графика
+   /// Содержит параметры сигнала, необходимые для генерации и сохранения графика.
    /// </summary>
    public class GrafValue
    {
       /// <summary>
-      /// Тип графика
+      /// Тип сигнала
       /// </summary>
       public SignalType Type { get; }
 
       /// <summary>
-      /// Амплитуда графика
+      /// Амплитуда сигнала
       /// </summary>
       public double Amplitude { get; }
 
       /// <summary>
-      /// Частота графика
+      /// Общее количество точек сигнала
       /// </summary>
       public double Frequency { get; }
 
       /// <summary>
-      /// Количество точек всего
+      /// Количество точек в одном периоде сигнала
       /// </summary>
       public int MaxCount { get; }
 
@@ -90,31 +110,44 @@ namespace SignalApp.Data
       /// </summary>
       public int? PeriodCount { get; }
 
+      /// <summary>
+      /// Проверяет корректность параметров сигнала.
+      /// </summary>
+      /// <returns>true, если параметры корректны.</returns>
+      /// <exception cref="ArgumentOutOfRangeException">
+      /// Выбрасывается, если одно из значений выходит за допустимый диапазон.
+      /// </exception>
       public bool Validate()
       {
          if (Amplitude <= 0)
-            throw new ArgumentOutOfRangeException("Amplitude must be a positive number");
+            throw new ArgumentOutOfRangeException(nameof(Amplitude), Amplitude, "Amplitude must be greater than 0.");
 
          if (Frequency <= 0)
-            throw new ArgumentOutOfRangeException("Frequency must be a positive number");
+            throw new ArgumentOutOfRangeException(nameof(Frequency), Frequency, "Frequency must be greater than 0.");
 
-         if (MaxCount > 10000 || MaxCount < 100)
-            throw new ArgumentOutOfRangeException("MaxCount must be a number between 100 and 10000");
+         if (MaxCount < 100 || MaxCount > 10000)
+            throw new ArgumentOutOfRangeException(nameof(MaxCount), MaxCount, "MaxCount must be in range [100, 10000].");
 
-         if (!(PeriodCount is null))
+         if (PeriodCount != null)
          {
             if (PeriodCount < 20)
-               throw new ArgumentOutOfRangeException("PeriodCount must be a number greater than 20");
+               throw new ArgumentOutOfRangeException(nameof(PeriodCount), PeriodCount, "PeriodCount must be greater than or equal to 20.");
 
             if (PeriodCount > MaxCount)
-               throw new ArgumentOutOfRangeException("PeriodCount must be a number less MaxCount");
+               throw new ArgumentOutOfRangeException(nameof(PeriodCount), PeriodCount, "PeriodCount must not exceed MaxCount.");
          }
+
          return true;
       }
 
       /// <summary>
-      /// Конструктор класса
+      /// Инициализирует параметры сигнала.
       /// </summary>
+      /// <param name="type">Тип сигнала.</param>
+      /// <param name="amplitude">Амплитуда сигнала.</param>
+      /// <param name="frequency">Частота сигнала.</param>
+      /// <param name="maxCount">Общее количество точек сигнала.</param>
+      /// <param name="periodCount">Количество точек в одном периоде сигнала.</param>
       public GrafValue(
          SignalType type,
          double amplitude,

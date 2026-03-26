@@ -5,18 +5,20 @@ using SignalApp.Data;
 namespace SignalApp.Function
 {
    /// <summary>
-   /// Класс с функциями для обработки математических функций
+   /// Содержит методы для генерации сигналов и расчёта их характеристик
    /// </summary>
    internal static class MathFunc
    {
       /// <summary>
-      /// Получение значения точки 
+      /// Вычисляет значение сигнала в заданной точке
       /// </summary>
-      /// <param name="type">Тип функции</param>
-      /// <param name="angle">Угол</param>
-      /// <param name="amplitude">Амплитуда</param>
-      /// <returns></returns>
-      /// <exception cref="NotImplementedException"></exception>
+      /// <param name="type">Тип сигнала</param>
+      /// <param name="angle">Значение угла в радианах</param>
+      /// <param name="amplitude">Амплитуда сигнала</param>
+      /// <returns>Значение сигнала по оси Y</returns>
+      /// <exception cref="NotImplementedException">
+      /// Выбрасывается, если для указанного типа сигнала вычисление не реализовано
+      /// </exception>
       private static double Graf_YValue(SignalType type, double angle, double amplitude)
       {
          double sin = Math.Sin(angle);
@@ -40,17 +42,23 @@ namespace SignalApp.Function
       }
 
       /// <summary>
-      /// Generates signal data and calculates its basic characteristics.
+      /// Генерирует точки сигнала и вычисляет его основные характеристики
       /// </summary>
-      /// <param name="grafValue">Type of the signal (Sine or Square).</param>
+      /// <param name="grafValue">Параметры сигнала</param>
       /// <returns>
-      /// A tuple (double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossings)
+      /// Кортеж, содержащий массив точек X, максимальное значение X,
+      /// массив точек Y, максимум, минимум, среднее значение и количество пересечений нуля
       /// </returns>
+      /// <exception cref="ArgumentException">
+      /// Выбрасывается, если переданы некорректные параметры сигнала
+      /// </exception>
       public static (double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing)
          GenerateGraf(GrafValue grafValue)
       {
-         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type) || !grafValue.Validate())
-            throw new ArgumentException("Incorrect signal type");
+         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type))
+            throw new ArgumentException($"Unsupported signal type: {grafValue.Type}", nameof(grafValue));
+
+         grafValue.Validate();
 
          double[] xs = new double[grafValue.MaxCount],
             ys = new double[grafValue.MaxCount];
