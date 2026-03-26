@@ -49,26 +49,8 @@ namespace SignalApp.Function
       public static (double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing)
          GenerateGraf(GrafValue grafValue)
       {
-         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type))
+         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type) || !grafValue.Validate())
             throw new ArgumentException("Incorrect signal type");
-
-         if (grafValue.Amplitude <= 0)
-            throw new ArgumentOutOfRangeException("Amplitude must be a positive number");
-
-         if (grafValue.Frequency <= 0)
-            throw new ArgumentOutOfRangeException("Frequency must be a positive number");
-
-         if (grafValue.MaxCount > 10000 || grafValue.MaxCount < 100)
-            throw new ArgumentOutOfRangeException("MaxCount must be a number between 100 and 10000");
-
-         if (!(grafValue.PeriodCount is null))
-         {
-            if (grafValue.PeriodCount < 20)
-               throw new ArgumentOutOfRangeException("PeriodCount must be a number greater than 20");
-
-            if (grafValue.PeriodCount > grafValue.MaxCount)
-               throw new ArgumentOutOfRangeException("PeriodCount must be a number less MaxCount");
-         }
 
          double[] xs = new double[grafValue.MaxCount],
             ys = new double[grafValue.MaxCount];

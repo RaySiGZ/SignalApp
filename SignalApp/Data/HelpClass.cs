@@ -90,6 +90,28 @@ namespace SignalApp.Data
       /// </summary>
       public int? PeriodCount { get; }
 
+      public bool Validate()
+      {
+         if (Amplitude <= 0)
+            throw new ArgumentOutOfRangeException("Amplitude must be a positive number");
+
+         if (Frequency <= 0)
+            throw new ArgumentOutOfRangeException("Frequency must be a positive number");
+
+         if (MaxCount > 10000 || MaxCount < 100)
+            throw new ArgumentOutOfRangeException("MaxCount must be a number between 100 and 10000");
+
+         if (!(PeriodCount is null))
+         {
+            if (PeriodCount < 20)
+               throw new ArgumentOutOfRangeException("PeriodCount must be a number greater than 20");
+
+            if (PeriodCount > MaxCount)
+               throw new ArgumentOutOfRangeException("PeriodCount must be a number less MaxCount");
+         }
+         return true;
+      }
+
       /// <summary>
       /// Конструктор класса
       /// </summary>

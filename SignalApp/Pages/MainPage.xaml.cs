@@ -67,7 +67,7 @@ namespace SignalApp.Pages
 
             var grafResult = MathFunc.GenerateGraf(grafValue);
 
-            SaveGraf.SaveGrafCSV(GetFullPath(type), grafResult);
+            SaveGraf.SaveGrafCSV(GetFullPath(type), grafValue, grafResult);
 
             return true;
          }
