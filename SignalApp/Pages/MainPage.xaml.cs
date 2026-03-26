@@ -133,14 +133,15 @@ namespace SignalApp.Pages
       {
          this.IsEnabled = false;
 
-         SaveSelect((SignalType)GrafTypeComboBox.SelectedValue);
+         if (SaveSelect((SignalType)GrafTypeComboBox.SelectedValue))
+         {
+            var message = MessageBox.Show($"Графики сохранены в {SavePath.Text}\n\nОткрыть папку?",
+               "Сохранение",
+               MessageBoxButton.YesNo);
 
-         var message = MessageBox.Show($"Графики сохранены в {SavePath.Text}\n\nОткрыть папку?",
-            "Сохранение",
-            MessageBoxButton.YesNo);
-
-         if (message == MessageBoxResult.Yes)
-            Process.Start("explorer.exe", SavePath.Text);
+            if (message == MessageBoxResult.Yes)
+               Process.Start("explorer.exe", SavePath.Text);
+         }
 
          this.IsEnabled = true;
       }
@@ -183,83 +184,5 @@ namespace SignalApp.Pages
             NavigationService.Navigate(new GrafPage(GetFullPath((SignalType)GrafTypeComboBox.SelectedValue), grafValue));
          }
       }
-
-      /// <summary>
-      /// Функция сохранения всех графиков
-      /// </summary>
-      //private void SaveAllGraf()
-      //{
-      //   if (ViewModel.HasErrors())
-      //      MessageBox.Show(
-      //         "Пожалуйста, исправьте ошибки в полях ввода перед продолжением.",
-      //         "Ошибка ввода",
-      //         MessageBoxButton.OK,
-      //         MessageBoxImage.Error);
-
-      //   else if (!ViewModel.TryGetParsedValues(
-      //      out double amplitude,
-      //      out double frequency,
-      //      out int maxCount,
-      //      out int? periodCount))
-      //      MessageBox.Show(
-      //         "Введите все значения",
-      //         "Ошибка ввода",
-      //         MessageBoxButton.OK,
-      //         MessageBoxImage.Error);
-
-      //   else
-      //   {
-      //      var grafSin = MathFunc.GenerateGraf(SignalType.Sine, amplitude, frequency, maxCount, periodCount);
-      //      var grafSquare = MathFunc.GenerateGraf(SignalType.Square, amplitude, frequency, maxCount, periodCount);
-
-      //      string resultMessage = string.Empty;
-
-      //      bool SaveSin = false,
-      //         SaveSquare = false;
-
-      //      try
-      //      {
-      //         string path = GetFullPath(SignalType.Sine);
-      //         SaveSin = SaveGraf.SaveGrafCSV(path, grafSin);
-      //         resultMessage += $"График Синусоиды сохранен в {path}";
-      //      }
-      //      catch (Exception ex)
-      //      {
-      //         MessageBox.Show(ex.Message, "Ошибка сохранения", MessageBoxButton.OK, MessageBoxImage.Error);
-      //      }
-      //      try
-      //      {
-      //         string path = GetFullPath(SignalType.Square);
-
-      //         SaveSquare = SaveGraf.SaveGrafCSV(path, grafSquare);
-
-      //         resultMessage = resultMessage.Length != 0 ?
-      //            resultMessage + $"\n\nГрафик Меандра сохранен в {path}" :
-      //            $"График Меандра сохранен в {path}";
-      //      }
-      //      catch (Exception ex)
-      //      {
-      //         MessageBox.Show(ex.Message, "Ошибка сохранения", MessageBoxButton.OK, MessageBoxImage.Error);
-      //      }
-
-      //      if (SaveSin || SaveSquare)
-      //      {
-      //         var result = MessageBox.Show(
-      //            resultMessage + "\n\nОткрыть папку?",
-      //            "Сохранение графиков",
-      //            MessageBoxButton.YesNo);
-
-      //         if (result == MessageBoxResult.Yes)
-      //            Process.Start("explorer.exe", SavePath.Text);
-      //      }
-      //      else
-      //      {
-      //         MessageBox.Show(
-      //            "Сохранение не успешно",
-      //            "Сохранение графиков",
-      //            MessageBoxButton.OK);
-      //      }
-      //   }
-      //}
    }
 }
