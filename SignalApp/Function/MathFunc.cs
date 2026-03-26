@@ -108,7 +108,10 @@ namespace SignalApp.Function
             if (min > y) min = y;
             avgSum += y;
 
-            if ((prev <= 0 && y >= 0) || (prev >= 0 && y <= 0))
+            // Чтобы учитывать (0; 0) - (prev <= 0 && y >= 0) || (prev > 0 && y <= 0)
+            // Чтобы не учитывать (0; 0) - (prev < 0 && y >= 0) || (prev >= 0 && y <= 0)
+
+            if ((prev < 0 && y >= 0) || (prev >= 0 && y <= 0))
                zeroCrossings++;
 
             prev = y;
