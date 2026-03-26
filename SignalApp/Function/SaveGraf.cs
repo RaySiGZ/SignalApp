@@ -25,9 +25,9 @@ namespace SignalApp.Function
       /// <exception cref="ArgumentNullException">
       /// Выбрасывается, если массив точек X или Y равен null
       /// </exception>
-      public static bool SaveGrafCSV(string fullPath, GrafValue grafValue,(double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing) graf)
+      public static bool SaveGrafCSV(string fullPath, GrafValue grafValue, (double[] xs, double xMax, double[] ys, double max, double min, double avg, int zeroCrossing) graf)
       {
-         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type)) 
+         if (!Enum.IsDefined(typeof(SignalType), grafValue.Type))
             throw new ArgumentException($"Unsupported signal type: {grafValue.Type}", nameof(grafValue));
 
          grafValue.Validate();
@@ -48,12 +48,24 @@ namespace SignalApp.Function
          {
             string directory = Path.GetDirectoryName(fullPath);
             if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
-               Directory.CreateDirectory(directory);
+            {
+               try
+               {
+                  Directory.CreateDirectory(directory);
+               }
+               catch (Exception ex) when (
+                  ex is UnauthorizedAccessException ||
+                  ex is IOException ||
+                  ex is NotSupportedException)
+               {
+                  throw new IOException($"Не удалось создать директорию: {directory}", ex);
+               }
+            }
 
             StreamWriter writer = new StreamWriter(fullPath, false, Encoding.UTF8);
 
-            var periodText = grafValue.PeriodCount.HasValue ? grafValue.PeriodCount.Value.ToString() : "N/A";
-            writer.WriteLine($"Graf Param. Type - {grafValue.Type}, A - {grafValue.Amplitude}, F - {grafValue.Frequency}, Max - {grafValue.MaxCount}, Period - {periodText}");
+            var periodText = grafValue.CountPeriod.HasValue ? grafValue.CountPeriod.Value.ToString() : "N/A";
+            writer.WriteLine($"Graf Param. Type - {grafValue.Type}, A - {grafValue.Amplitude}, F - {grafValue.Frequency}, Max - {grafValue.CountMax}, Period - {periodText}");
 
             writer.WriteLine("X;Y");
 
@@ -67,9 +79,13 @@ namespace SignalApp.Function
 
             return true;
          }
-         catch
+         catch (IOException)
          {
-            return false;
+            throw;
+         }
+         catch (Exception ex)
+         {
+            throw new IOException($"Ошибка при сохранении файла: {fullPath}", ex);
          }
       }
    }

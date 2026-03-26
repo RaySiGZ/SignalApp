@@ -103,12 +103,12 @@ namespace SignalApp.Data
       /// <summary>
       /// Количество точек в одном периоде сигнала
       /// </summary>
-      public int MaxCount { get; }
+      public int CountMax { get; }
 
       /// <summary>
       /// Количество точек в одном периоде
       /// </summary>
-      public int? PeriodCount { get; }
+      public int? CountPeriod { get; }
 
       /// <summary>
       /// Проверяет корректность параметров сигнала.
@@ -125,16 +125,16 @@ namespace SignalApp.Data
          if (Frequency <= 0)
             throw new ArgumentOutOfRangeException(nameof(Frequency), Frequency, "Frequency must be greater than 0.");
 
-         if (MaxCount < 100 || MaxCount > 10000)
-            throw new ArgumentOutOfRangeException(nameof(MaxCount), MaxCount, "MaxCount must be in range [100, 10000].");
+         if (CountMax < 100 || CountMax > 10000)
+            throw new ArgumentOutOfRangeException(nameof(CountMax), CountMax, "MaxCount must be in range [100, 10000].");
 
-         if (PeriodCount != null)
+         if (CountPeriod != null)
          {
-            if (PeriodCount < 20)
-               throw new ArgumentOutOfRangeException(nameof(PeriodCount), PeriodCount, "PeriodCount must be greater than or equal to 20.");
+            if (CountPeriod < 20)
+               throw new ArgumentOutOfRangeException(nameof(CountPeriod), CountPeriod, "PeriodCount must be greater than or equal to 20.");
 
-            if (PeriodCount > MaxCount)
-               throw new ArgumentOutOfRangeException(nameof(PeriodCount), PeriodCount, "PeriodCount must not exceed MaxCount.");
+            if (CountPeriod > CountMax)
+               throw new ArgumentOutOfRangeException(nameof(CountPeriod), CountPeriod, "PeriodCount must not exceed MaxCount.");
          }
 
          return true;
@@ -146,20 +146,20 @@ namespace SignalApp.Data
       /// <param name="type">Тип сигнала.</param>
       /// <param name="amplitude">Амплитуда сигнала.</param>
       /// <param name="frequency">Частота сигнала.</param>
-      /// <param name="maxCount">Общее количество точек сигнала.</param>
-      /// <param name="periodCount">Количество точек в одном периоде сигнала.</param>
+      /// <param name="countMax">Общее количество точек сигнала.</param>
+      /// <param name="countPeriod">Количество точек в одном периоде сигнала.</param>
       public GrafValue(
          SignalType type,
          double amplitude,
          double frequency,
-         int maxCount,
-         int? periodCount)
+         int countMax,
+         int? countPeriod)
       {
          Type = type;
          Amplitude = amplitude;
          Frequency = frequency;
-         MaxCount = maxCount;
-         PeriodCount = periodCount;
+         CountMax = countMax;
+         CountPeriod = countPeriod;
       }
    }
 }

@@ -69,8 +69,8 @@ namespace SignalApp.Pages
          else if (!ViewModel.TryGetParsedValues(
             out double amplitude,
             out double frequency,
-            out int maxCount,
-            out int? periodCount))
+            out int countMax,
+            out int? countPeriod))
          {
             MessageBox.Show(
                "Введите все значения",
@@ -81,7 +81,7 @@ namespace SignalApp.Pages
          }
          else
          {
-            var grafValue = new GrafValue(type, amplitude, frequency, maxCount, periodCount);
+            var grafValue = new GrafValue(type, amplitude, frequency, countMax, countPeriod);
 
             var grafResult = MathFunc.GenerateGraf(grafValue);
 
@@ -201,8 +201,8 @@ namespace SignalApp.Pages
          else if (!ViewModel.TryGetParsedValues(
             out double amplitude,
             out double frequency,
-            out int maxCount,
-            out int? periodCount))
+            out int countMax,
+            out int? countPeriod))
             MessageBox.Show(
                "Введите все значения",
                "Ошибка ввода",
@@ -210,7 +210,7 @@ namespace SignalApp.Pages
                MessageBoxImage.Error);
          else
          {
-            var grafValue = new GrafValue((SignalType)GrafTypeComboBox.SelectedValue, amplitude, frequency, maxCount, periodCount);
+            var grafValue = new GrafValue((SignalType)GrafTypeComboBox.SelectedValue, amplitude, frequency, countMax, countPeriod);
 
             NavigationService.Navigate(new GrafPage(GetFullPath((SignalType)GrafTypeComboBox.SelectedValue), grafValue));
          }

@@ -60,12 +60,12 @@ namespace SignalApp.Function
 
          grafValue.Validate();
 
-         double[] xs = new double[grafValue.MaxCount],
-            ys = new double[grafValue.MaxCount];
+         double[] xs = new double[grafValue.CountMax],
+            ys = new double[grafValue.CountMax];
 
-         double dx = grafValue.PeriodCount.HasValue ?
-            1.0 / (grafValue.Frequency * grafValue.PeriodCount.Value) :
-            1.0 / grafValue.MaxCount;
+         double dx = grafValue.CountPeriod.HasValue ?
+            1.0 / (grafValue.Frequency * grafValue.CountPeriod.Value) :
+            1.0 / grafValue.CountMax;
 
          double staticParam = 2 * Math.PI * grafValue.Frequency * dx;
 
@@ -84,7 +84,7 @@ namespace SignalApp.Function
          // Изменить на 1, если нужно учесть точку (0;0)
          int zeroCrossings = 0;
 
-         for (int step = 1; step < grafValue.MaxCount; step++)
+         for (int step = 1; step < grafValue.CountMax; step++)
          {
             angle = step * staticParam;
 
@@ -109,11 +109,11 @@ namespace SignalApp.Function
 
          return (
             xs,
-            dx * grafValue.MaxCount,
+            dx * grafValue.CountMax,
             ys,
             max,
             min,
-            avgSum / grafValue.MaxCount,
+            avgSum / grafValue.CountMax,
             zeroCrossings);
       }
    }
