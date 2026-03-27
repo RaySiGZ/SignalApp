@@ -52,19 +52,24 @@ SignalApp — это приложение на C# для генерации и �
 
 ## 🛠 Требования
 
-* .NET Framework 4.7.2
 * Windows OS
+* .NET Framework 4.7.2 (если не встроен в систему)
 
 ---
 
 ## ▶️ Запуск
 
-1. Открыть решение в Visual Studio
-2. Установить зависимости
-3. Запустить проект `SignalApp`
+1. Скачать архив из раздела [Releases](https://github.com/RaySiGZ/SignalApp/releases)
+2. Распаковать  
+3. Запустить `SignalApp.exe`
 
-Portable версия
-В разработке
+---
+
+## 👨‍💻 Запуск из исходников
+
+1. Открыть решение в Visual Studio  
+2. Собрать проект  
+3. Запустить `SignalApp`
 
 ---
 
